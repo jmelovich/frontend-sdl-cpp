@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17) # this can be changed to 14 if Poco is earlier than version 1.13.0
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_POSITION_INDEPENDENT_CODE YES)
 
@@ -12,6 +12,9 @@ project(projectMSDL
         )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+# the following should be set to the 'install' folder of projectM if you encounter issues with it finding the projectM libraries
+#list(APPEND CMAKE_PREFIX_PATH "projectM 'install' folder")
 
 option(ENABLE_FLAT_PACKAGE "Creates a \"flat\" install layout with the executable, configuration file(s) and preset/texture dirs directly in the install prefix." OFF)
 option(ENABLE_INSTALL_BDEPS "Installs all shared libraries projectMSDL requires to run." OFF)
@@ -86,6 +89,10 @@ if(NOT SDL2_LINKAGE STREQUAL "shared" AND NOT SDL2_LINKAGE STREQUAL "static")
             "Please specify either \"shared\" or \"static\"."
             )
 endif()
+
+# Add utf8proc before Poco
+#set(UTF8PROC_ROOT "utf8proc/<version>") # if you get build errors about utf8proc, set this to the path to your utf8proc install
+find_package(utf8proc REQUIRED)
 
 find_package(projectM4 REQUIRED COMPONENTS Playlist)
 find_package(SDL2 REQUIRED)
