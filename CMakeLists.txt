@@ -92,7 +92,9 @@ endif()
 
 # Add utf8proc before Poco
 #set(UTF8PROC_ROOT "utf8proc/<version>") # if you get build errors about utf8proc, set this to the path to your utf8proc install
-find_package(utf8proc REQUIRED)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    find_package(utf8proc REQUIRED)
+endif()
 
 find_package(projectM4 REQUIRED COMPONENTS Playlist)
 find_package(SDL2 REQUIRED)
